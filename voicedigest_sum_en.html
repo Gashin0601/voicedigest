@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VoiceDigest — @vd sum</title>
+<style>
+  :root{
+    --slack-purple:#611f69;
+    --slack-link:#1264a3;
+    --text-primary:#1d1c1d;
+    --text-secondary:#616061;
+    --border:#dddddd;
+    --bg:#ffffff;
+    --bg-hover:#f8f8f8;
+    --chip-bg:#eef2f6;
+    --chip-border:#c6d3de;
+    --focus-ring:#1264a3;
+    --success-text:#1d6b2a;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;background:#f0f0f0;
+    font-family:-apple-system,"Lato","Helvetica Neue",Arial,sans-serif;
+    color:var(--text-primary);padding:32px 16px;line-height:1.5;
+  }
+  .wrap{max-width:640px;margin:0 auto;}
+
+  /* command input mock */
+  .composer{
+    background:#fff;border:1px solid var(--border);border-radius:8px;
+    padding:10px 14px;margin-bottom:4px;font-size:14px;color:var(--text-secondary);
+  }
+  .composer .cmd{color:var(--slack-link);font-weight:700;}
+  .sent-msg{
+    display:flex;gap:10px;padding:10px 4px;margin-bottom:16px;
+  }
+  .sent-msg .avatar{
+    width:28px;height:28px;border-radius:6px;flex-shrink:0;
+    background:#2b2b2b;color:#fff;display:flex;align-items:center;justify-content:center;
+    font-size:12px;font-weight:700;
+  }
+  .sent-msg .bubble{font-size:14px;}
+  .sent-msg .cmd-text{color:var(--slack-link);font-weight:600;}
+  .sent-msg .meta{font-size:12px;color:var(--text-secondary);margin-left:6px;}
+
+  .thread-msg{display:flex;gap:10px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:16px;}
+  .avatar{
+    width:36px;height:36px;border-radius:6px;flex-shrink:0;
+    background:linear-gradient(135deg,#611f69,#8e3d99);
+    display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;
+  }
+  .msg-body{flex:1;min-width:0;}
+  .msg-head{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin-bottom:2px;}
+  .msg-name{font-weight:700;font-size:15px;}
+  .app-badge{font-size:10px;font-weight:700;color:var(--text-secondary);border:1px solid var(--border);border-radius:3px;padding:1px 4px;}
+  .msg-time{font-size:12px;color:var(--text-secondary);}
+
+  .card{border:1px solid var(--border);border-left:4px solid var(--slack-purple);border-radius:6px;padding:14px 16px;margin-top:8px;}
+  .card-title{display:flex;align-items:center;gap:6px;font-weight:700;font-size:14px;margin:0 0 10px;}
+
+  .summary-line{margin:0 0 12px;font-size:14px;}
+  .kp-title{font-size:13px;font-weight:700;color:var(--text-secondary);margin:16px 0 8px;text-transform:uppercase;letter-spacing:.02em;}
+
+  ul.kp-list{margin:0;padding-left:0;list-style:none;}
+  ul.kp-list li{display:flex;align-items:flex-start;gap:8px;font-size:14px;padding:6px 0;border-bottom:1px solid #f0f0f0;}
+  ul.kp-list li:last-child{border-bottom:none;}
+  ul.kp-list li .bullet-text{flex:1;}
+
+  .cite-chip{
+    display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 6px;
+    margin-left:2px;border-radius:11px;background:var(--chip-bg);border:1px solid var(--chip-border);
+    color:var(--slack-link);font-size:12px;font-weight:700;text-decoration:none;cursor:pointer;flex-shrink:0;
+    transition:background .15s;
+  }
+  .cite-chip:hover{background:#dde8f0;}
+  .cite-chip:focus-visible{outline:3px solid var(--focus-ring);outline-offset:2px;}
+
+  .audio-block{margin-top:16px;border:1px solid var(--border);border-radius:8px;padding:12px 14px;background:var(--bg-hover);}
+  .audio-label-row{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;margin-bottom:10px;}
+  .audio-controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+  .play-btn{width:34px;height:34px;border-radius:50%;background:var(--slack-purple);border:none;color:#fff;
+    display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-size:13px;}
+  .play-btn:focus-visible{outline:3px solid var(--focus-ring);outline-offset:2px;}
+  .seek-wrap{flex:1;min-width:160px;display:flex;flex-direction:column;gap:2px;}
+  .seek-wrap label,.speed-wrap label{font-size:11px;color:var(--text-secondary);font-weight:600;}
+  input[type="range"]{width:100%;accent-color:var(--slack-purple);height:20px;cursor:pointer;}
+  input[type="range"]:focus-visible{outline:3px solid var(--focus-ring);outline-offset:2px;}
+  .time-row{display:flex;justify-content:space-between;font-size:11px;color:var(--text-secondary);}
+  .speed-wrap select{font-size:13px;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:#fff;}
+  .speed-wrap select:focus-visible{outline:3px solid var(--focus-ring);outline-offset:2px;}
+
+  .transcript-row{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;}
+  .transcript-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--slack-link);
+    background:none;border:none;cursor:pointer;padding:4px 2px;}
+  .transcript-btn:hover{text-decoration:underline;}
+  .transcript-btn:focus-visible{outline:3px solid var(--focus-ring);outline-offset:2px;border-radius:3px;}
+
+  .feedback-row{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;}
+  .fb-btn{font-size:13px;font-weight:600;border:1px solid var(--border);border-radius:6px;background:#fff;padding:6px 12px;cursor:pointer;}
+  .fb-btn:hover{background:var(--bg-hover);}
+  .fb-btn:focus-visible{outline:3px solid var(--focus-ring);outline-offset:2px;}
+
+  .source-row{margin-top:14px;font-size:12px;color:var(--text-secondary);padding-top:10px;border-top:1px solid var(--border);}
+  .source-row a{color:var(--slack-link);word-break:break-all;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="composer">Type a command, e.g. <span class="cmd">@vd sum</span></div>
+
+  <div class="sent-msg">
+    <div class="avatar" aria-hidden="true">GS</div>
+    <div class="bubble">
+      <span class="cmd-text">@vd sum</span><span class="meta">Gashin · just now</span>
+    </div>
+  </div>
+
+  <div class="thread-msg">
+    <div class="avatar" aria-hidden="true">VD</div>
+    <div class="msg-body">
+      <div class="msg-head">
+        <span class="msg-name">VoiceDigest</span>
+        <span class="app-badge">APP</span>
+        <span class="msg-time">just now</span>
+      </div>
+
+      <div class="card">
+        <p class="card-title"><span aria-hidden="true">🔊</span>Summary</p>
+
+        <p class="summary-line">
+          Confirm whether you can join next week's user test, and submit the consent-form draft by Friday.
+        </p>
+
+        <p class="kp-title">Key points from this morning</p>
+        <ul class="kp-list">
+          <li>
+            <span class="bullet-text">Kenji is running the standup in text; decisions will be locked later since Gashin is offline.</span>
+            <a href="#msg-1" class="cite-chip" aria-label="Go to source message 1 (Kenji running the standup)">1</a>
+          </li>
+          <li>
+            <span class="bullet-text">Owais shared a new sign-up mockup.</span>
+            <a href="#msg-2" class="cite-chip" aria-label="Go to source message 2 (Owais shared a mockup)">2</a>
+          </li>
+          <li>
+            <span class="bullet-text">It has work email and password fields with a green "Create account" button.</span>
+            <a href="#msg-3" class="cite-chip" aria-label="Go to source message 3 (mockup design details)">3</a>
+          </li>
+          <li>
+            <span class="bullet-text">Owais asked whether the green button is obvious enough against white.</span>
+            <a href="#msg-4" class="cite-chip" aria-label="Go to source message 4 (button contrast question)">4</a>
+          </li>
+          <li>
+            <span class="bullet-text">Hisato confirmed the sign-up backend is done; QA Thursday, ship Friday if design locks.</span>
+            <a href="#msg-5" class="cite-chip" aria-label="Go to source message 5 (backend done, release plan)">5</a>
+          </li>
+          <li>
+            <span class="bullet-text">Dai asked to double-check accessibility, especially contrast.</span>
+            <a href="#msg-6" class="cite-chip" aria-label="Go to source message 6 (accessibility check request)">6</a>
+          </li>
+          <li>
+            <span class="bullet-text">A WCAG quick-reference link was shared.</span>
+            <a href="#msg-7" class="cite-chip" aria-label="Go to source message 7 (WCAG reference shared)">7</a>
+          </li>
+          <li>
+            <span class="bullet-text">Owais gave a 👍 on the mockup direction (no rush).</span>
+            <a href="#msg-8" class="cite-chip" aria-label="Go to source message 8 (thumbs up on mockup direction)">8</a>
+          </li>
+        </ul>
+
+        <div class="audio-block">
+          <div class="audio-label-row">
+            <span aria-hidden="true">🎧</span>
+            <span>Spoken summary (MP3 · 1:10)</span>
+          </div>
+          <div class="audio-controls">
+            <button type="button" class="play-btn" aria-label="Play spoken summary" aria-pressed="false">
+              <span aria-hidden="true">▶</span>
+            </button>
+            <div class="seek-wrap">
+              <label for="seek-slider">Seek</label>
+              <input type="range" id="seek-slider" min="0" max="70" value="0"
+                     aria-valuemin="0" aria-valuemax="70" aria-valuenow="0"
+                     aria-valuetext="0:00 of 1:10">
+              <div class="time-row"><span>0:00</span><span>1:10</span></div>
+            </div>
+            <div class="speed-wrap">
+              <label for="speed-select">Playback speed</label>
+              <select id="speed-select" aria-label="Select playback speed">
+                <option value="0.75">0.75x</option>
+                <option value="1" selected>1x</option>
+                <option value="1.25">1.25x</option>
+                <option value="1.5">1.5x</option>
+                <option value="2">2x</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="transcript-row">
+          <button type="button" class="transcript-btn" aria-label="Open full transcript">
+            <span aria-hidden="true">📄</span>
+            View transcript
+          </button>
+        </div>
+
+        <div class="feedback-row">
+          <button type="button" class="fb-btn">✅ Add to to-do list</button>
+          <button type="button" class="fb-btn">👍 Helpful</button>
+          <button type="button" class="fb-btn">👎 Not great</button>
+        </div>
+
+        <div class="source-row">
+          Source:
+          <a href="https://kiara-partner-sb.slack.com/archives/C0BGTBTPTK7/p1783930640628229">
+            #momo-demo original thread
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

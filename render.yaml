@@ -1,0 +1,22 @@
+# Render blueprint — Momo as a Background Worker (Socket Mode; no web port).
+# Secrets (OPENAI_API_KEY, SLACK_*) are set in the dashboard / via API, not committed.
+services:
+  - type: worker
+    name: momo
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    branch: develop
+    plan: starter
+    region: oregon
+    autoDeploy: true
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: SLACK_BOT_TOKEN
+        sync: false
+      - key: SLACK_APP_TOKEN
+        sync: false
+      - key: MOMO_ENABLE_VOICE
+        value: "1"
+      - key: MOMO_ENABLE_TABLE
+        value: "0"
