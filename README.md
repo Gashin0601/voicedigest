@@ -22,7 +22,7 @@ Screen readers read a Slack channel top-to-bottom, symbol by symbol. VoiceDigest
 
 ## Required technology — MCP server integration (+ Real-Time Search)
 
-VoiceDigest ships its own MCP server, **`momo-accessibility`** (`src/mcp_server.py`), speaking
+VoiceDigest ships its own MCP server, **`vd-accessibility`** (`src/mcp_server.py`), speaking
 stdio JSON-RPC 2.0 with the standard library only. It exposes two tools that a blind
 Slack user needs most:
 
@@ -51,7 +51,7 @@ Slack (Socket Mode)
       │  └─ fallback: conversations.history/replies    │  (transparent if RTS unavailable)
       ▼                                                 ▼
   OpenAI agentic tool-loop  ◀──function calls──▶  MCP client --stdio JSON-RPC-->
-      │                                            mcp_server.py (momo-accessibility)
+      │                                            mcp_server.py (vd-accessibility)
       │                                              ├─ describe_image -> OpenAI vision
       │                                              └─ read_link      -> fetch + OpenAI
       ▼
@@ -97,5 +97,5 @@ demo/   demo.html · summary-ja.html · summary-en.html · seed_channel.py · mo
 ```
 
 - `src/bot.py` — Slack Bolt bot: history -> digest -> Block Kit, buttons, image/link weaving.
-- `src/mcp_server.py` — the `momo-accessibility` MCP server (`describe_image`, `read_link`).
+- `src/mcp_server.py` — the `vd-accessibility` MCP server (`describe_image`, `read_link`).
 - `src/mcp_client.py` — minimal stdio MCP client used by the bot.

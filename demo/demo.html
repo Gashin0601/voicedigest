@@ -11,7 +11,7 @@
     --pane:#ffffff; --pane-2:#f8f8f8; --line:#e8e8e8;
     --ink:#1d1c1d; --muted:#616061; --green:#16a34a; --green-halo:#dcfce7;
     --blue:#1264a3; --amber:#fef9c3; --amber-ink:#854d0e;
-    --momo:#2f7d5b; --momo-halo:#e6f4ee;
+    --vd:#2f7d5b; --vd-halo:#e6f4ee;
     --radius:8px;
   }
   *{box-sizing:border-box}
@@ -94,23 +94,23 @@
   .trace .gear{animation:spin 1.4s linear infinite;display:inline-block}
   .trace .step.done .gear{animation:none}
   @keyframes spin{to{transform:rotate(360deg)}}
-  .trace code{background:#e6ede9;color:var(--momo);padding:1px 5px;border-radius:4px;font-size:12px}
+  .trace code{background:#e6ede9;color:var(--vd);padding:1px 5px;border-radius:4px;font-size:12px}
 
   /* VoiceDigest Block Kit card */
-  .bk{border:1px solid var(--line);border-left:4px solid var(--momo);border-radius:10px;max-width:640px;margin-top:6px;overflow:hidden}
+  .bk{border:1px solid var(--line);border-left:4px solid var(--vd);border-radius:10px;max-width:640px;margin-top:6px;overflow:hidden}
   .bk .bk-h{font-weight:800;font-size:15px;padding:12px 14px 6px}
   .bk .bk-sec{padding:2px 14px 10px;font-size:14px;line-height:1.6}
   .bk .bk-sec .lead{background:var(--amber);color:var(--amber-ink);border-radius:6px;padding:8px 10px;margin-bottom:8px;font-weight:600}
   .bk .bk-ctx{padding:6px 14px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);background:var(--pane-2)}
   .bk table{border-collapse:collapse;width:calc(100% - 28px);margin:2px 14px 12px;font-size:13.5px}
   .bk th,.bk td{border:1px solid var(--line);padding:7px 10px;text-align:left}
-  .bk th{background:var(--momo-halo);color:var(--momo);font-weight:700}
+  .bk th{background:var(--vd-halo);color:var(--vd);font-weight:700}
   .bk td .badge{background:#fee2e2;color:#991b1b;border-radius:20px;padding:2px 9px;font-size:12px;font-weight:600}
   .bk .bk-actions{display:flex;gap:8px;padding:2px 14px 14px;flex-wrap:wrap}
   .bk .btn{border:1px solid var(--line);background:#fff;border-radius:6px;padding:8px 13px;font-size:13px;font-weight:600;transition:all .15s;display:inline-flex;align-items:center;gap:6px}
   .bk .btn:hover{background:var(--pane-2)}
-  .bk .btn.play{border-color:var(--momo);color:var(--momo);background:var(--momo-halo)}
-  .bk .btn.play.playing{background:var(--momo);color:#fff}
+  .bk .btn.play{border-color:var(--vd);color:var(--vd);background:var(--vd-halo)}
+  .bk .btn.play.playing{background:var(--vd);color:#fff}
   .bk .btn.play .bars{display:inline-flex;gap:2px;align-items:flex-end;height:14px}
   .bk .btn.play .bars i{width:3px;background:currentColor;height:5px;border-radius:2px}
   .bk .btn.play.playing .bars i{animation:eq .6s ease-in-out infinite}

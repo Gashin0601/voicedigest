@@ -75,7 +75,7 @@ class MCPClient:
         self._request("initialize", {
             "protocolVersion": "2025-06-18",
             "capabilities": {},
-            "clientInfo": {"name": "momo-bot", "version": "1.0.0"},
+            "clientInfo": {"name": "vd-bot", "version": "1.0.0"},
         })
         self._notify("notifications/initialized")
         self.tools = self._request("tools/list").get("tools", [])

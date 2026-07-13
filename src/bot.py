@@ -1,6 +1,6 @@
 """
-0710GashinBot / モモ — 全盲でも使える Slack エージェント（コア）
-Bolt (Socket Mode) + OpenAI (gpt-4o-mini · tts-1) + 自作 MCP サーバー(momo-accessibility)。
+0710GashinBot / VoiceDigest — 全盲でも使える Slack エージェント（コア）
+Bolt (Socket Mode) + OpenAI (gpt-4o-mini · tts-1) + 自作 MCP サーバー(vd-accessibility)。
 （注: 関数名の gemini_* は歴史的な名残で、実体は OpenAI を呼ぶ。）
 
 思想: 画面を読み上げる代わりに、チャンネル/スレッドの流れを取得して
@@ -47,10 +47,10 @@ CHAT_ENDPOINT = "https://api.openai.com/v1/chat/completions"
 
 # ---- 機能フラグ ----
 # Data Table ブロックは新しめ。既定は OFF（GA ブロックで確実に描画）。
-# ワークスペースが対応していれば MOMO_ENABLE_TABLE=1 で有効化、失敗時は自動フォールバック。
-ENABLE_TABLE = os.environ.get("MOMO_ENABLE_TABLE", "") not in ("", "0", "false")
+# ワークスペースが対応していれば VD_ENABLE_TABLE=1 で有効化、失敗時は自動フォールバック。
+ENABLE_TABLE = os.environ.get("VD_ENABLE_TABLE", "") not in ("", "0", "false")
 # 音声（OpenAI TTS→Slack に再生可能な音声を投稿）。既定 ON。
-ENABLE_VOICE = os.environ.get("MOMO_ENABLE_VOICE", "1") not in ("0", "false", "")
+ENABLE_VOICE = os.environ.get("VD_ENABLE_VOICE", "1") not in ("0", "false", "")
 OPENAI_TTS_MODEL = os.environ.get("OPENAI_TTS_MODEL", "tts-1")
 OPENAI_TTS_VOICE = os.environ.get("OPENAI_TTS_VOICE", "alloy")
 TTS_ENDPOINT = "https://api.openai.com/v1/audio/speech"
@@ -135,7 +135,7 @@ STR = {
         "answer_fail": "うまく答えを作れませんでした。もう一度言ってもらえますか。",
         "fb_up": "ありがとうございます。参考になったようで良かったです。",
         "fb_down": "教えてくれてありがとうございます。もっと分かりやすく直します。",
-        "audio_title": "🎧 モモの音声",
+        "audio_title": "🎧 VoiceDigestの音声",
         "cite_hint": "🔢 番号を押すと、その発言の元メッセージのリンクが出ます。",
         "cite_link": "🔗 出典[{n}] の元メッセージ:\n{url}",
         "cite_gone": "すみません、その出典のリンクが見つかりませんでした。",
@@ -160,7 +160,7 @@ except Exception as _e:
     BOT_USER_ID = BOT_ID = None
     print("auth_test 失敗（bot id 取得できず）:", _e, flush=True)
 
-# ---- MCP サーバー(momo-accessibility)を子プロセスで起動 ----
+# ---- MCP サーバー(vd-accessibility)を子プロセスで起動 ----
 _HERE = os.path.dirname(os.path.abspath(__file__))
 _PY = os.path.join(_HERE, ".venv", "bin", "python")
 if not os.path.exists(_PY):
@@ -315,7 +315,7 @@ def _openai_chat(messages, tools=None, max_tokens=1200):
         except urllib.error.HTTPError as e:
             if e.code in (429, 500, 502, 503) and attempt < 3:
                 wait = 2 * (attempt + 1)
-                print(f"[momo] openai {e.code}, retry in {wait}s", flush=True)
+                print(f"[vd] openai {e.code}, retry in {wait}s", flush=True)
                 time.sleep(wait)
                 continue
             raise
@@ -374,7 +374,7 @@ def _run_tool(name, args):
         out = describe_image(args.get("image_url", ""), args.get("context", ""))
     else:
         out = mcp.call_tool(name, args or {})
-    print(f"[momo] tool {name} took {time.time()-t0:.1f}s", flush=True)
+    print(f"[vd] tool {name} took {time.time()-t0:.1f}s", flush=True)
     return out
 
 
@@ -405,7 +405,7 @@ def gemini_answer_agentic(user_text, log, lang="ja", max_steps=2, has_sources=Fa
             t0 = time.time()
             msg = _openai_chat(messages, tools=tools)
             calls = msg.get("tool_calls") or []
-            print(f"[momo] step{step} openai {time.time()-t0:.1f}s, "
+            print(f"[vd] step{step} openai {time.time()-t0:.1f}s, "
                   f"tool_calls={[c['function']['name'] for c in calls]}", flush=True)
             if not calls:
                 return (msg.get("content") or "").strip() or fail
@@ -627,7 +627,7 @@ def gemini_tts(text):
                 return r.read()          # 生の mp3 バイト列
         except urllib.error.HTTPError as e:
             if e.code in (429, 500, 502, 503) and attempt < 3:
-                print(f"[momo] TTS {e.code}, retry in {2*(attempt+1)}s", flush=True)
+                print(f"[vd] TTS {e.code}, retry in {2*(attempt+1)}s", flush=True)
                 time.sleep(2 * (attempt + 1))
                 continue
             print("TTS 失敗（テキストのみで継続）:", e.code, flush=True)
@@ -644,7 +644,7 @@ def post_voice(client, channel, thread_ts, text, lang="ja"):
         return
     try:
         client.files_upload_v2(channel=channel, thread_ts=thread_ts,
-                               content=audio, filename="momo.mp3",
+                               content=audio, filename="voicedigest.mp3",
                                title=STR[lang]["audio_title"])
     except Exception as e:
         print("音声アップロード失敗:", type(e).__name__, e, flush=True)

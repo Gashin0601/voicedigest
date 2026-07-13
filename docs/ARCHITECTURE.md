@@ -22,7 +22,7 @@ flowchart TD
   RTS -. "fallback if unauthorized" .-> HIST[("conversations.history / replies")]
   CTX --> LOOP
 
-  LOOP <-->|"stdio JSON-RPC (MCP)"| MCP["mcp_server.py<br/>momo-accessibility"]
+  LOOP <-->|"stdio JSON-RPC (MCP)"| MCP["mcp_server.py<br/>vd-accessibility"]
   MCP --> DI["describe_image → OpenAI vision"]
   MCP --> RL["read_link → fetch + summarize"]
 
@@ -36,7 +36,7 @@ flowchart TD
 
 | Slack-promoted tech | How VoiceDigest uses it |
 |---|---|
-| **MCP server integration** (required) | Ships its own reusable MCP server `momo-accessibility` (stdio JSON-RPC); the bot is the MCP client and exposes the server's `tools/list` to the model as function declarations. |
+| **MCP server integration** (required) | Ships its own reusable MCP server `vd-accessibility` (stdio JSON-RPC); the bot is the MCP client and exposes the server's `tools/list` to the model as function declarations. |
 | **Real-Time Search API** | `assistant.search.context` grounds the digest in fresh cross-channel context; transparent fallback to `conversations.history` keeps it working in any workspace. |
 | **New Block Kit component** | To-do list renders as a **Data Table** (graceful fallback to checkboxes on unsupported workspaces). |
 | **Slack AI-adjacent** | Audio-first output: digest posted as a playable clip (OpenAI TTS) so the workflow is usable entirely by ear. |
@@ -51,6 +51,6 @@ flowchart TD
 ## Files
 
 - `src/bot.py` — Bolt bot: RTS/history → agentic OpenAI tool-loop → Block Kit + audio.
-- `src/mcp_server.py` — the `momo-accessibility` MCP server (`describe_image`, `read_link`).
+- `src/mcp_server.py` — the `vd-accessibility` MCP server (`describe_image`, `read_link`).
 - `src/mcp_client.py` — minimal stdio MCP client.
 - `demo/demo.html` — self-contained animated demo (real in-browser TTS) = the video basis.

@@ -24,7 +24,7 @@ your action items into a structured to-do table.
 - **Agentic tool-loop.** VoiceDigest runs an OpenAI function-calling loop and decides on its own
   when to call its MCP tools — `describe_image` (OpenAI vision) and `read_link` — then
   grounds the digest in what it found. Not a scripted responder.
-- **Its own MCP server.** `momo-accessibility` is a real, reusable MCP server (stdio
+- **Its own MCP server.** `vd-accessibility` is a real, reusable MCP server (stdio
   JSON-RPC, stdlib only) — mountable by any MCP client (e.g. Claude Desktop), not just VoiceDigest.
 - **Real-Time Search grounding.** Pulls fresh cross-channel context via
   `assistant.search.context`; falls back to channel history so it works in any workspace.
@@ -45,7 +45,7 @@ your action items into a structured to-do table.
 - It's **inclusive by construction**, not a bolt-on: accessibility *is* the product.
 
 ## Built with
-`slack-bolt` (Python) · Socket Mode · Model Context Protocol (custom `momo-accessibility`
+`slack-bolt` (Python) · Socket Mode · Model Context Protocol (custom `vd-accessibility`
 server) · Slack Real-Time Search (`assistant.search.context`) · Block Kit (Data Table) ·
 OpenAI (`gpt-4o-mini` for reasoning + image vision, `tts-1` for voice).
 
@@ -87,7 +87,7 @@ Record the browser demo (`demo/demo.html`) for the scripted beats, then cut to t
 
 ## Notes / owed follow-ups
 - **Verify at build-time in the sandbox:** the exact Slack `table` block schema (kept behind
-  `MOMO_ENABLE_TABLE` with auto-fallback), the `assistant.search.context` response fields, and
+  `VD_ENABLE_TABLE` with auto-fallback), the `assistant.search.context` response fields, and
   where the `action_token` rides on the event payload.
 - **Voice model:** `OPENAI_TTS_MODEL` defaults to `tts-1` (voice `alloy`); a paid OpenAI key
   covers reasoning, vision, and voice with no rate-limit throttling.
