@@ -1,6 +1,6 @@
 """
 0710GashinBot / VoiceDigest — 全盲でも使える Slack エージェント（コア）
-Bolt (Socket Mode) + OpenAI (gpt-4o-mini · tts-1) + 自作 MCP サーバー(vd-accessibility)。
+Bolt (Socket Mode) + OpenAI (gpt-4o · tts-1) + 自作 MCP サーバー(vd-accessibility)。
 （注: 関数名の gemini_* は歴史的な名残で、実体は OpenAI を呼ぶ。）
 
 思想: 画面を読み上げる代わりに、チャンネル/スレッドの流れを取得して
@@ -42,7 +42,7 @@ from mcp_client import MCPClient
 # OPENAI_API_KEY を使う。無ければ（キーを GEMINI_API_KEY 行に貼った場合の保険で）
 # sk- で始まる GEMINI_API_KEY を流用する。
 OPENAI_KEY = os.environ.get("OPENAI_API_KEY", "") or os.environ.get("GEMINI_API_KEY", "")
-OPENAI_MODEL = os.environ.get("OPENAI_MODEL", "gpt-4o-mini")   # 推論＋function calling
+OPENAI_MODEL = os.environ.get("OPENAI_MODEL", "gpt-4o")   # 推論＋function calling
 CHAT_ENDPOINT = "https://api.openai.com/v1/chat/completions"
 
 # ---- 機能フラグ ----
@@ -394,7 +394,7 @@ def gemini_answer_agentic(user_text, log, lang="ja", max_steps=2, has_sources=Fa
     )
     messages = [{"role": "system", "content": SYSTEM}]
     if has_sources:
-        # 引用は必須ルールとして system に格上げ（プロンプト末尾だと gpt-4o-mini が
+        # 引用は必須ルールとして system に格上げ（プロンプト末尾だと gpt-4o が
         # 無視しがち＋ツール呼び出しループで後方に流れて効かなくなるため）。
         messages.append({"role": "system", "content": CITE_RULE})
         prompt += ("\n\n(Remember: end every sentence that restates a numbered log line "

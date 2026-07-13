@@ -47,7 +47,7 @@ your action items into a structured to-do table.
 ## Built with
 `slack-bolt` (Python) · Socket Mode · Model Context Protocol (custom `vd-accessibility`
 server) · Slack Real-Time Search (`assistant.search.context`) · Block Kit (Data Table) ·
-OpenAI (`gpt-4o-mini` for reasoning + image vision, `tts-1` for voice).
+OpenAI (`gpt-4o` for reasoning + image vision, `tts-1` for voice).
 
 ## Try it / links
 - **Code:** this repo (`Gashin0601/voicedigest`).

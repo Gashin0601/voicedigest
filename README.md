@@ -28,7 +28,7 @@ Slack user needs most:
 
 | tool | what it does |
 |---|---|
-| `describe_image(image_url, context?)` | OpenAI vision (`gpt-4o-mini`) → blind-friendly description. Slack `url_private` files are fetched with the bot's Bearer token. |
+| `describe_image(image_url, context?)` | OpenAI vision (`gpt-4o`) → blind-friendly description. Slack `url_private` files are fetched with the bot's Bearer token. |
 | `read_link(url)` | Fetches a web page, strips HTML, summarizes it for audio. |
 
 The bot is the **MCP client** (`src/mcp_client.py`): on startup it spawns the server as
@@ -59,7 +59,7 @@ Slack (Socket Mode)
   └─ 🎧 audio clip (OpenAI TTS -> mp3 -> files_upload_v2)   ← "run Slack by ear"
 ```
 
-- **LLM**: OpenAI `gpt-4o-mini` (reasoning + function-calling + image vision) via the Chat
+- **LLM**: OpenAI `gpt-4o` (reasoning + function-calling + image vision) via the Chat
   Completions API; **`tts-1`** for voice. One `OPENAI_API_KEY` covers reasoning, vision, and speech.
 - No public URL needed (Socket Mode). No web framework, no DB — standard library + `slack_bolt`.
 

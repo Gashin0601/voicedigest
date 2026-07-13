@@ -13,7 +13,7 @@ flowchart TD
   subgraph BOT["bot.py — Slack Bolt (Socket Mode, no public URL)"]
     direction TB
     CTX["build_log()"]
-    LOOP["OpenAI agentic tool-loop<br/>(gpt-4o-mini, function calling)"]
+    LOOP["OpenAI agentic tool-loop<br/>(gpt-4o, function calling)"]
     BK["Block Kit reply<br/>header + digest + Data Table"]
     TTS["OpenAI TTS (tts-1)<br/>digest → mp3"]
   end
