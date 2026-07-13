@@ -50,7 +50,7 @@ server) · Slack Real-Time Search (`assistant.search.context`) · Block Kit (Dat
 OpenAI (`gpt-4o-mini` for reasoning + image vision, `tts-1` for voice).
 
 ## Try it / links
-- **Code:** this repo (`Gashin0601/0710-slack-hackathon`).
+- **Code:** this repo (`Gashin0601/voicedigest`).
 - **Animated demo (self-contained, speaks aloud):** `demo/demo.html`.
 - **Architecture diagram:** `docs/ARCHITECTURE.md`.
 
