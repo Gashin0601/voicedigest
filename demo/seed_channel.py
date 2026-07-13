@@ -4,12 +4,12 @@
 - チャンネルを新規作成（既にあれば名前で解決）し、そこへ Kenji / Owais / Hisato / Dai の
   4人が投稿したように見せる（chat:write.customize による username / icon 上書き）。
 - 途中でサインアップ画面モック（demo/mockup.png）を添付し、WCAG リンクも共有する。
-- 末尾の「あなた(Gashin)が @Momo を呼ぶ」メッセージは録画時に本人が手打ちする想定なので
+- 末尾の「あなた(Gashin)が @vd を呼ぶ」メッセージは録画時に本人が手打ちする想定なので
   ここでは投稿しない。
 
 前提スコープ: chat:write.customize（名前/アイコン上書き）, channels:manage（チャンネル作成）
 使い方:
-    python3 seed_channel.py                 # momo-demo を作成して投下
+    python3 seed_channel.py                 # voicedigest-demo を作成して投下
     python3 seed_channel.py my-channel-name # 名前を指定
     python3 seed_channel.py C0XXXXXXX       # 既存チャンネルID指定
 """
@@ -47,7 +47,7 @@ def resolve_channel(arg):
     """arg が ID ならそのまま、名前なら作成/検索して channel_id を返す。"""
     if arg and arg.startswith("C") and arg.isalnum():
         return arg
-    name = arg or "momo-demo"
+    name = arg or "voicedigest-demo"
     try:
         r = client.conversations_create(name=name, is_private=False)
         print(f"created #{name} -> {r['channel']['id']}")
@@ -128,7 +128,7 @@ def main():
     say(ch, OWAIS, "No rush, but a \U0001f44d on the mockup direction would help me finalize.")
 
     print("\nDONE. 録画時は、このチャンネルで自分のアカウントから↓を送ってください:")
-    print("  @Momo I just got back and missed the morning. "
+    print("  @vd I just got back and missed the morning. "
           "What are the key points, and is there anything I need to do?")
 
 

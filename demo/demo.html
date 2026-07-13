@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Momo (モモ) — Run Slack by ear · Demo</title>
+<title>VoiceDigest — Run Slack by ear · Demo</title>
 <style>
   /* ---- Self-contained: system fonts, no CDN, no network. ---- */
   :root{
@@ -96,7 +96,7 @@
   @keyframes spin{to{transform:rotate(360deg)}}
   .trace code{background:#e6ede9;color:var(--momo);padding:1px 5px;border-radius:4px;font-size:12px}
 
-  /* Momo Block Kit card */
+  /* VoiceDigest Block Kit card */
   .bk{border:1px solid var(--line);border-left:4px solid var(--momo);border-radius:10px;max-width:640px;margin-top:6px;overflow:hidden}
   .bk .bk-h{font-weight:800;font-size:15px;padding:12px 14px 6px}
   .bk .bk-sec{padding:2px 14px 10px;font-size:14px;line-height:1.6}
@@ -129,7 +129,7 @@
   <div class="narrator">
     <span class="dot" aria-hidden="true"></span>
     <div class="cap" id="cap">
-      <b>Momo — run Slack by ear.</b> Press ▶ Play to watch a blind teammate use Slack entirely by ear.
+      <b>VoiceDigest — run Slack by ear.</b> Press ▶ Play to watch a blind teammate use Slack entirely by ear.
       <span class="ja">全盲のユーザーが Slack を「耳だけ」で使うデモです。▶ を押してください。</span>
     </div>
     <div class="spacer"></div>
@@ -152,12 +152,12 @@
       <div class="ch active"><span class="hash">#</span>design-review</div>
       <div class="ch"><span class="hash">#</span>engineering</div>
       <div class="sec">Apps</div>
-      <div class="ch">🎧 Momo</div>
+      <div class="ch">🎧 VoiceDigest</div>
     </div>
     <div class="main">
       <div class="topbar">
         <span class="title"># design-review</span>
-        <span class="meta">・ Aya, Ken, You, 🎧 Momo</span>
+        <span class="meta">・ Aya, Ken, You, 🎧 VoiceDigest</span>
       </div>
       <div class="stream" id="stream" aria-label="conversation"></div>
       <div class="composer" id="composer">
@@ -173,7 +173,7 @@
 
 <script>
 /* ============================================================
-   Momo demo — scripted timeline with real in-browser TTS.
+   VoiceDigest demo — scripted timeline with real in-browser TTS.
    No network, no CDN. Mirrors the real bot's flow:
    RTS/agentic tool-loop -> Block Kit (Data Table) -> 🎧 audio.
    ============================================================ */
@@ -189,7 +189,7 @@ const AV = {
   Aya:  {bg:'#e8912d', t:'A'},
   Ken:  {bg:'#7c5cff', t:'K'},
   You:  {bg:'#1264a3', t:'Y'},
-  Momo: {bg:'#2f7d5b', t:'🎧'},
+  VoiceDigest: {bg:'#2f7d5b', t:'🎧'},
 };
 const sleep = ms => new Promise(r=>setTimeout(r,ms));
 function say(en, ja){ cap.innerHTML = `<b>${en}</b><span class="ja">${ja}</span>`; }
@@ -207,7 +207,7 @@ function addMsg(who, time, bodyHtml){
   return el;
 }
 
-// The blind user's spoken digest (what Momo speaks aloud).
+// The blind user's spoken digest (what VoiceDigest speaks aloud).
 const DIGEST_JA =
   "あなたに関係する用件がひとつあります。Aya さんが、新しいモックアップ画像についてあなたのレビューを求めています。"+
   "画像は会員登録画面で、緑のボタンが以前より大きく、上部に進捗バーが追加されています。"+
@@ -239,12 +239,12 @@ function speak(text){
   });
 }
 
-/* ---------- Play button on Momo's card ---------- */
+/* ---------- Play button on VoiceDigest's card ---------- */
 function wirePlayButton(btn){
   btn.addEventListener('click', async ()=>{
     if(btn.classList.contains('playing')){ speechSynthesis.cancel(); btn.classList.remove('playing'); return; }
     btn.classList.add('playing');
-    announce('モモが要約を読み上げています');
+    announce('VoiceDigestが要約を読み上げています');
     await speak(DIGEST_JA);
     btn.classList.remove('playing');
   });
@@ -271,21 +271,21 @@ async function runDemo(){
   addMsg('Aya','10:31', 'あと今日のランチ、新しいラーメン屋どうでした？🍜');
   await sleep(900);
 
-  // The blind user asks Momo — by voice.
-  say("The blind user asks Momo — by voice.", "全盲のユーザーが、声でモモに尋ねる。");
+  // The blind user asks VoiceDigest — by voice.
+  say("The blind user asks VoiceDigest — by voice.", "全盲のユーザーが、声でVoiceDigestに尋ねる。");
   mic.classList.add('live'); announce('音声入力中');
-  await typeComposer('@Momo 私に何か頼まれてる？');
+  await typeComposer('@vd 私に何か頼まれてる？');
   await sleep(700); mic.classList.remove('live');
-  addMsg('You','10:32', '@Momo 私に何か頼まれてる？');
+  addMsg('You','10:32', '@vd 私に何か頼まれてる？');
   composerBox.innerHTML = 'メッセージ #design-review';
   await sleep(500);
 
-  // Momo: typing, then the agentic tool-loop trace.
-  const typing = addMsg('Momo','', '<span class="typing"><i></i><i></i><i></i></span>');
+  // VoiceDigest: typing, then the agentic tool-loop trace.
+  const typing = addMsg('VoiceDigest','', '<span class="typing"><i></i><i></i><i></i></span>');
   await sleep(900);
 
-  say("Momo is agentic: it decides to read the image and the link itself.",
-      "モモはエージェント的：画像とリンクを自分で読むと判断。");
+  say("VoiceDigest is agentic: it decides to read the image and the link itself.",
+      "VoiceDigestはエージェント的：画像とリンクを自分で読むと判断。");
   const trace = document.createElement('div'); trace.className='trace';
   typing.querySelector('.body').innerHTML = '';
   typing.querySelector('.body').appendChild(trace);
@@ -304,12 +304,12 @@ async function runDemo(){
   await sleep(500);
 
   // Replace typing bubble with the real Block Kit reply.
-  say("Momo replies with a structured card — and speaks it aloud.",
-      "モモは構造化カードで返答し、そのまま読み上げる。");
+  say("VoiceDigest replies with a structured card — and speaks it aloud.",
+      "VoiceDigestは構造化カードで返答し、そのまま読み上げる。");
   typing.remove();
-  const card = addMsg('Momo','10:32', `
+  const card = addMsg('VoiceDigest','10:32', `
     <div class="bk">
-      <div class="bk-h">🎧 モモの要約</div>
+      <div class="bk-h">🎧 VoiceDigestの要約</div>
       <div class="bk-sec">
         <div class="lead">✋ あなたへの用件：Aya さんが「会員登録画面のモックアップ」のレビューを待っています。</div>
         画像は会員登録画面で、<b>緑のボタンが以前より大きく</b>、上部に<b>進捗バー</b>が追加されています。
@@ -326,11 +326,11 @@ async function runDemo(){
         <button class="btn">👍 役に立った</button>
         <button class="btn">👎 いまいち</button>
       </div>
-      <div class="bk-ctx">🔎 全社検索の最新コンテキストから ・ 画像1件・リンク1件をモモが読み取り</div>
+      <div class="bk-ctx">🔎 全社検索の最新コンテキストから ・ 画像1件・リンク1件をVoiceDigestが読み取り</div>
     </div>`);
   const playBtn = card.querySelector('#playBtn');
   wirePlayButton(playBtn);
-  announce('モモの要約が届きました。あなたへの用件が1件あります。');
+  announce('VoiceDigestの要約が届きました。あなたへの用件が1件あります。');
   await sleep(600);
 
   // Auto-play the audio so the reviewer literally hears it.

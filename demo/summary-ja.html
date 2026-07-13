@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,25 +16,21 @@
     --chip-bg:#eef2f6;
     --chip-border:#c6d3de;
     --focus-ring:#1264a3;
-    --success-text:#1d6b2a;
   }
   *{box-sizing:border-box;}
   body{
     margin:0;background:#f0f0f0;
-    font-family:-apple-system,"Lato","Helvetica Neue",Arial,sans-serif;
-    color:var(--text-primary);padding:32px 16px;line-height:1.5;
+    font-family:-apple-system,"Lato","Hiragino Kaku Gothic ProN","Yu Gothic","Helvetica Neue",Arial,sans-serif;
+    color:var(--text-primary);padding:32px 16px;line-height:1.6;
   }
   .wrap{max-width:640px;margin:0 auto;}
 
-  /* command input mock */
   .composer{
     background:#fff;border:1px solid var(--border);border-radius:8px;
     padding:10px 14px;margin-bottom:4px;font-size:14px;color:var(--text-secondary);
   }
   .composer .cmd{color:var(--slack-link);font-weight:700;}
-  .sent-msg{
-    display:flex;gap:10px;padding:10px 4px;margin-bottom:16px;
-  }
+  .sent-msg{display:flex;gap:10px;padding:10px 4px;margin-bottom:16px;}
   .sent-msg .avatar{
     width:28px;height:28px;border-radius:6px;flex-shrink:0;
     background:#2b2b2b;color:#fff;display:flex;align-items:center;justify-content:center;
@@ -60,7 +56,7 @@
   .card-title{display:flex;align-items:center;gap:6px;font-weight:700;font-size:14px;margin:0 0 10px;}
 
   .summary-line{margin:0 0 12px;font-size:14px;}
-  .kp-title{font-size:13px;font-weight:700;color:var(--text-secondary);margin:16px 0 8px;text-transform:uppercase;letter-spacing:.02em;}
+  .kp-title{font-size:13px;font-weight:700;color:var(--text-secondary);margin:16px 0 8px;letter-spacing:.02em;}
 
   ul.kp-list{margin:0;padding-left:0;list-style:none;}
   ul.kp-list li{display:flex;align-items:flex-start;gap:8px;font-size:14px;padding:6px 0;border-bottom:1px solid #f0f0f0;}
@@ -108,12 +104,12 @@
 <body>
 <div class="wrap">
 
-  <div class="composer">Type a command, e.g. <span class="cmd">@vd sum</span></div>
+  <div class="composer">コマンドを入力、例: <span class="cmd">@vd sum</span></div>
 
   <div class="sent-msg">
     <div class="avatar" aria-hidden="true">GS</div>
     <div class="bubble">
-      <span class="cmd-text">@vd sum</span><span class="meta">Gashin · just now</span>
+      <span class="cmd-text">@vd sum</span><span class="meta">Gashin · 今</span>
     </div>
   </div>
 
@@ -123,98 +119,98 @@
       <div class="msg-head">
         <span class="msg-name">VoiceDigest</span>
         <span class="app-badge">APP</span>
-        <span class="msg-time">just now</span>
+        <span class="msg-time">今</span>
       </div>
 
       <div class="card">
-        <p class="card-title"><span aria-hidden="true">🔊</span>Summary</p>
+        <p class="card-title"><span aria-hidden="true">🔊</span>要約</p>
 
         <p class="summary-line">
-          Confirm whether you can join next week's user test, and submit the consent-form draft by Friday.
+          来週のユーザーテストに参加できるか確認し、同意書ドラフトを金曜までに提出する必要があります。
         </p>
 
-        <p class="kp-title">Key points from this morning</p>
+        <p class="kp-title">今朝の主な議論ポイント</p>
         <ul class="kp-list">
           <li>
-            <span class="bullet-text">Kenji is running the standup in text; decisions will be locked later since Gashin is offline.</span>
-            <a href="#msg-1" class="cite-chip" aria-label="Go to source message 1 (Kenji running the standup)">1</a>
+            <span class="bullet-text">Kenjiが議事進行を担当。Gashinが不在のため決定事項は後でロックする。</span>
+            <a href="#msg-1" class="cite-chip" aria-label="ソースメッセージ1(Kenjiの議事進行に関する発言)へ移動">1</a>
           </li>
           <li>
-            <span class="bullet-text">Owais shared a new sign-up mockup.</span>
-            <a href="#msg-2" class="cite-chip" aria-label="Go to source message 2 (Owais shared a mockup)">2</a>
+            <span class="bullet-text">Owaisが新しいサインアップのモックアップを共有。</span>
+            <a href="#msg-2" class="cite-chip" aria-label="ソースメッセージ2(Owaisのモックアップ共有)へ移動">2</a>
           </li>
           <li>
-            <span class="bullet-text">It has work email and password fields with a green "Create account" button.</span>
-            <a href="#msg-3" class="cite-chip" aria-label="Go to source message 3 (mockup design details)">3</a>
+            <span class="bullet-text">仕事用メールとパスワードの入力欄、緑色の「Create account」ボタンを配置。</span>
+            <a href="#msg-3" class="cite-chip" aria-label="ソースメッセージ3(モックアップのデザイン詳細)へ移動">3</a>
           </li>
           <li>
-            <span class="bullet-text">Owais asked whether the green button is obvious enough against white.</span>
-            <a href="#msg-4" class="cite-chip" aria-label="Go to source message 4 (button contrast question)">4</a>
+            <span class="bullet-text">Owaisが、白背景に対して緑ボタンが十分目立つか質問。</span>
+            <a href="#msg-4" class="cite-chip" aria-label="ソースメッセージ4(ボタンのコントラストに関する質問)へ移動">4</a>
           </li>
           <li>
-            <span class="bullet-text">Hisato confirmed the sign-up backend is done; QA Thursday, ship Friday if design locks.</span>
-            <a href="#msg-5" class="cite-chip" aria-label="Go to source message 5 (backend done, release plan)">5</a>
+            <span class="bullet-text">Hisatoがサインアップのバックエンド完了を確認。QAは木曜、デザイン確定なら金曜リリース。</span>
+            <a href="#msg-5" class="cite-chip" aria-label="ソースメッセージ5(バックエンド完了とリリース予定の確認)へ移動">5</a>
           </li>
           <li>
-            <span class="bullet-text">Dai asked to double-check accessibility, especially contrast.</span>
-            <a href="#msg-6" class="cite-chip" aria-label="Go to source message 6 (accessibility check request)">6</a>
+            <span class="bullet-text">Daiがアクセシビリティ、特にコントラストの確認を依頼。</span>
+            <a href="#msg-6" class="cite-chip" aria-label="ソースメッセージ6(アクセシビリティ確認の依頼)へ移動">6</a>
           </li>
           <li>
-            <span class="bullet-text">A WCAG quick-reference link was shared.</span>
-            <a href="#msg-7" class="cite-chip" aria-label="Go to source message 7 (WCAG reference shared)">7</a>
+            <span class="bullet-text">WCAGクイックリファレンスのリンクが共有された。</span>
+            <a href="#msg-7" class="cite-chip" aria-label="ソースメッセージ7(WCAGリファレンスの共有)へ移動">7</a>
           </li>
           <li>
-            <span class="bullet-text">Owais gave a 👍 on the mockup direction (no rush).</span>
-            <a href="#msg-8" class="cite-chip" aria-label="Go to source message 8 (thumbs up on mockup direction)">8</a>
+            <span class="bullet-text">Owaisから、モックアップの方向性への👍(急ぎではない)。</span>
+            <a href="#msg-8" class="cite-chip" aria-label="ソースメッセージ8(モックアップ方向性への好評価)へ移動">8</a>
           </li>
         </ul>
 
         <div class="audio-block">
           <div class="audio-label-row">
             <span aria-hidden="true">🎧</span>
-            <span>Spoken summary (MP3 · 1:10)</span>
+            <span>音声要約(MP3・1分10秒)</span>
           </div>
           <div class="audio-controls">
-            <button type="button" class="play-btn" aria-label="Play spoken summary" aria-pressed="false">
+            <button type="button" class="play-btn" aria-label="音声要約を再生" aria-pressed="false">
               <span aria-hidden="true">▶</span>
             </button>
             <div class="seek-wrap">
-              <label for="seek-slider">Seek</label>
+              <label for="seek-slider">再生位置</label>
               <input type="range" id="seek-slider" min="0" max="70" value="0"
                      aria-valuemin="0" aria-valuemax="70" aria-valuenow="0"
-                     aria-valuetext="0:00 of 1:10">
+                     aria-valuetext="0分0秒 / 1分10秒">
               <div class="time-row"><span>0:00</span><span>1:10</span></div>
             </div>
             <div class="speed-wrap">
-              <label for="speed-select">Playback speed</label>
-              <select id="speed-select" aria-label="Select playback speed">
-                <option value="0.75">0.75x</option>
-                <option value="1" selected>1x</option>
-                <option value="1.25">1.25x</option>
-                <option value="1.5">1.5x</option>
-                <option value="2">2x</option>
+              <label for="speed-select">再生速度</label>
+              <select id="speed-select" aria-label="再生速度を選択">
+                <option value="0.75">0.75倍</option>
+                <option value="1" selected>1倍</option>
+                <option value="1.25">1.25倍</option>
+                <option value="1.5">1.5倍</option>
+                <option value="2">2倍</option>
               </select>
             </div>
           </div>
         </div>
 
         <div class="transcript-row">
-          <button type="button" class="transcript-btn" aria-label="Open full transcript">
+          <button type="button" class="transcript-btn" aria-label="全文文字起こしを開く">
             <span aria-hidden="true">📄</span>
-            View transcript
+            文字起こしを表示
           </button>
         </div>
 
         <div class="feedback-row">
-          <button type="button" class="fb-btn">✅ Add to to-do list</button>
-          <button type="button" class="fb-btn">👍 Helpful</button>
-          <button type="button" class="fb-btn">👎 Not great</button>
+          <button type="button" class="fb-btn">✅ To-doリストにする</button>
+          <button type="button" class="fb-btn">👍 役に立った</button>
+          <button type="button" class="fb-btn">👎 いまいち</button>
         </div>
 
         <div class="source-row">
-          Source:
+          出典:
           <a href="https://kiara-partner-sb.slack.com/archives/C0BGTBTPTK7/p1783930640628229">
-            #momo-demo original thread
+            #voicedigest-demo チャンネルの元スレッド
           </a>
         </div>
       </div>

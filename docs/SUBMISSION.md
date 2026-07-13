@@ -1,18 +1,13 @@
-# Devpost submission — Momo (モモ)
+# Devpost submission — VoiceDigest
 
 Drafted for the **Slack Agent Builder Challenge → "Slack Agent for Good"** track.
 Paste-ready copy is below; the **team checklist** at the end covers the parts only the
 team can do (sandbox, access grants, App ID, video upload).
 
-> ⚠️ **Reconcile the existing draft first.** The current Devpost draft *"Accessible Slack"*
-> (`#1075144`) describes a *voice-control-of-DaveBot0622* idea with `[Need Owais's input]`
-> placeholders. That does **not** match what we built (Momo). Either repoint that draft to
-> Momo using the copy below, or create a fresh submission. Decision owner: Dave/Owais.
-
 ---
 
 ## Project name
-**Momo (モモ) — run Slack by ear**
+**VoiceDigest — run Slack by ear**
 
 ## Tagline (≤ 200 chars)
 A Slack agent that lets blind and low-vision teammates *hear* what a channel is really
@@ -20,17 +15,17 @@ saying — who needs them, what images and links contain — and act on it, enti
 
 ## Elevator / "What it does"
 Screen readers read Slack top-to-bottom, symbol by symbol — exhausting, and images and
-links are opaque. **Momo listens to the channel for you.** Mention it (typed or by voice)
+links are opaque. **VoiceDigest listens to the channel for you.** Mention it (typed or by voice)
 and it returns a short, audio-first digest: *what needs you* first, then the gist — and it
 **speaks the answer aloud** as a playable clip. It reads images and links itself, and turns
 your action items into a structured to-do table.
 
 ## How it works (features & functionality)
-- **Agentic tool-loop.** Momo runs an OpenAI function-calling loop and decides on its own
+- **Agentic tool-loop.** VoiceDigest runs an OpenAI function-calling loop and decides on its own
   when to call its MCP tools — `describe_image` (OpenAI vision) and `read_link` — then
   grounds the digest in what it found. Not a scripted responder.
 - **Its own MCP server.** `momo-accessibility` is a real, reusable MCP server (stdio
-  JSON-RPC, stdlib only) — mountable by any MCP client (e.g. Claude Desktop), not just Momo.
+  JSON-RPC, stdlib only) — mountable by any MCP client (e.g. Claude Desktop), not just VoiceDigest.
 - **Real-Time Search grounding.** Pulls fresh cross-channel context via
   `assistant.search.context`; falls back to channel history so it works in any workspace.
 - **Structured Block Kit.** To-do items render as a **Data Table** (graceful fallback to
@@ -43,8 +38,8 @@ your action items into a structured to-do table.
 - **285M+ people** worldwide are blind or have moderate-to-severe vision impairment (WHO).
   Chat tools default to a visual, scan-the-scrollback model that excludes them at work.
 - Screen readers linearize a channel but can't tell a user *what matters to them*, and they
-  read images/links as "image" / a raw URL — the two things Momo turns into words.
-- Momo shifts Slack from "read every line" to **"hear the point + what needs you,"** lowering
+  read images/links as "image" / a raw URL — the two things VoiceDigest turns into words.
+- VoiceDigest shifts Slack from "read every line" to **"hear the point + what needs you,"** lowering
   the cognitive and time cost of participating in a fast team channel. The same audio-first
   digest also helps low-vision, dyslexic, and screen-away (e.g. commuting) users.
 - It's **inclusive by construction**, not a bolt-on: accessibility *is* the product.
@@ -55,33 +50,33 @@ server) · Slack Real-Time Search (`assistant.search.context`) · Block Kit (Dat
 OpenAI (`gpt-4o-mini` for reasoning + image vision, `tts-1` for voice).
 
 ## Try it / links
-- **Code:** this repo (`Kiara-02-Lab-Social/0710-slack-hackathon`).
-- **Animated demo (self-contained, speaks aloud):** `demo/momo-demo.html`.
+- **Code:** this repo (`Gashin0601/0710-slack-hackathon`).
+- **Animated demo (self-contained, speaks aloud):** `demo/demo.html`.
 - **Architecture diagram:** `docs/ARCHITECTURE.md`.
 
 ---
 
 ## 🎬 3-minute demo video storyboard
-Record the browser demo (`demo/momo-demo.html`) for the scripted beats, then cut to the
+Record the browser demo (`demo/demo.html`) for the scripted beats, then cut to the
 **real bot in the sandbox** for proof. Keep it under 3:00. Turn sound ON (the point is audio).
 
 | Time | On screen | Say / show |
 |---|---|---|
 | 0:00–0:20 | Title + one blind user at a laptop | "Slack is a wall of scrollback. For a blind teammate, it's read top-to-bottom, symbol by symbol — and images and links are just noise." |
 | 0:20–0:40 | `#design-review` filling with messages, an image, a link | "Here's a busy channel. Something in here needs *you* — but which line?" |
-| 0:40–1:00 | User @-mentions Momo **by voice** (mic pulses) | "Ask Momo — by voice." |
-| 1:00–1:35 | The **agentic tool-loop trace**: RTS → `describe_image` → `read_link` | "Momo is agentic: it decides on its own to search the workspace, read the image, and read the link — via its own MCP server." |
-| 1:35–2:15 | Momo's Block Kit card: lead line + **Data Table** to-do, then **it speaks** 🔊 | "It replies with what needs you first, a structured to-do table — and it *speaks the answer*. Slack, entirely by ear." |
+| 0:40–1:00 | User @-mentions VoiceDigest **by voice** (mic pulses) | "Ask VoiceDigest — by voice." |
+| 1:00–1:35 | The **agentic tool-loop trace**: RTS → `describe_image` → `read_link` | "VoiceDigest is agentic: it decides on its own to search the workspace, read the image, and read the link — via its own MCP server." |
+| 1:35–2:15 | VoiceDigest's Block Kit card: lead line + **Data Table** to-do, then **it speaks** 🔊 | "It replies with what needs you first, a structured to-do table — and it *speaks the answer*. Slack, entirely by ear." |
 | 2:15–2:45 | Cut to **real Slack sandbox**: same @mention → real card + real audio clip | "And here it is live in Slack." (proof it's real, not just a mockup) |
-| 2:45–3:00 | Architecture diagram + "MCP · Real-Time Search · Block Kit" | "Built on Slack's MCP, Real-Time Search, and Block Kit. Momo — run Slack by ear." |
+| 2:45–3:00 | Architecture diagram + "MCP · Real-Time Search · Block Kit" | "Built on Slack's MCP, Real-Time Search, and Block Kit. VoiceDigest — run Slack by ear." |
 
 ---
 
 ## ✅ Team checklist — only you can do these (before the deadline)
-- [ ] **Decide draft:** repoint `Accessible Slack` (#1075144) to Momo, or new submission.
+- [ ] **Decide draft:** repoint `Accessible Slack` (#1075144) to VoiceDigest, or new submission.
 - [ ] **Select track:** *Slack Agent for Good*.
 - [ ] **Slack sandbox / Developer Program:** confirm the AI-enabled sandbox exists (needed for
-      RTS semantic search); register Momo as an **internal app** (unlisted apps can't use MCP/RTS).
+      RTS semantic search); register VoiceDigest as an **internal app** (unlisted apps can't use MCP/RTS).
 - [ ] **Install + scopes:** add the scopes in the repo README (incl. `files:write` for the
       audio clip; `search:read.*` for RTS). Enable Socket Mode + subscribe `app_mention`, `message.im`.
 - [ ] **Grant sandbox test access** to `slackhack@salesforce.com` **and** `testing@devpost.com`.

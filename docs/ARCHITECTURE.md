@@ -1,4 +1,4 @@
-# Momo — Architecture
+# VoiceDigest — Architecture
 
 **One-line:** a Slack accessibility agent that turns a channel/thread into a spoken,
 actionable digest for blind and low-vision users — agentic (MCP tool-loop), grounded
@@ -8,7 +8,7 @@ actionable digest for blind and low-vision users — agentic (MCP tool-loop), gr
 
 ```mermaid
 flowchart TD
-  U["👤 Blind / low-vision user<br/>@Momo (typed or by voice)"] -->|app_mention / message.im| BOT
+  U["👤 Blind / low-vision user<br/>@vd (typed or by voice)"] -->|app_mention / message.im| BOT
 
   subgraph BOT["bot.py — Slack Bolt (Socket Mode, no public URL)"]
     direction TB
@@ -34,7 +34,7 @@ flowchart TD
 
 ## Required-technology mapping (hackathon eligibility)
 
-| Slack-promoted tech | How Momo uses it |
+| Slack-promoted tech | How VoiceDigest uses it |
 |---|---|
 | **MCP server integration** (required) | Ships its own reusable MCP server `momo-accessibility` (stdio JSON-RPC); the bot is the MCP client and exposes the server's `tools/list` to the model as function declarations. |
 | **Real-Time Search API** | `assistant.search.context` grounds the digest in fresh cross-channel context; transparent fallback to `conversations.history` keeps it working in any workspace. |
@@ -53,4 +53,4 @@ flowchart TD
 - `src/bot.py` — Bolt bot: RTS/history → agentic OpenAI tool-loop → Block Kit + audio.
 - `src/mcp_server.py` — the `momo-accessibility` MCP server (`describe_image`, `read_link`).
 - `src/mcp_client.py` — minimal stdio MCP client.
-- `demo/momo-demo.html` — self-contained animated demo (real in-browser TTS) = the video basis.
+- `demo/demo.html` — self-contained animated demo (real in-browser TTS) = the video basis.
