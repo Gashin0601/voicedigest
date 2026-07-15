@@ -996,6 +996,27 @@ def _fb_reply(body, client, msg):
         pass
 
 
+def _start_health_server():
+    """Render の Web Service はポート待受を要求する。VoiceDigest は Socket Mode で
+    HTTP ポートを開かないため、ポートスキャンを通すだけの極小ヘルスサーバを立てる。
+    PORT はプラットフォームが注入（Render 既定 10000）。ローカル起動時も無害。"""
+    import http.server
+
+    class _H(http.server.BaseHTTPRequestHandler):
+        def do_GET(self):
+            self.send_response(200)
+            self.send_header("Content-Type", "text/plain; charset=utf-8")
+            self.end_headers()
+            self.wfile.write(b"VoiceDigest bot is running (Slack Socket Mode).\n")
+
+        def log_message(self, *args):
+            pass  # アクセスログは黙らせる
+
+    port = int(os.environ.get("PORT", "10000"))
+    http.server.HTTPServer(("0.0.0.0", port), _H).serve_forever()
+
+
 if __name__ == "__main__":
     _mcp_start()
+    threading.Thread(target=_start_health_server, daemon=True).start()
     SocketModeHandler(app, os.environ["SLACK_APP_TOKEN"]).start()
